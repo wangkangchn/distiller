@@ -111,7 +111,7 @@ def create_mask_level_criterion(tensor, desired_sparsity):
                                 int(desired_sparsity * tensor.numel()),
                                 largest=False,
                                 sorted=True)
-        threshold = bottomk.data[-1]  # This is the largest element from the group of elements that we prune away
+        threshold = bottomk.data[-1]  if bottomk.numel() > 0 else tensor.min().item()  # This is the largest element from the group of elements that we prune away
         mask = create_mask_threshold_criterion(tensor, threshold)
         return mask
 
